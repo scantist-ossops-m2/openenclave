@@ -2,8 +2,8 @@
 # Licensed under the MIT License.
 
 ---
-gcc_target_version: "9.4.0"
+gcc_target_version: "11.3.0"
 # For specifying distribution-specific packages
 apt_distribution_packages: []
 apt_arm_distribution_packages:
-  - "python3-crypto"
+  - "python3-cryptography"

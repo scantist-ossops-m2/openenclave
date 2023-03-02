@@ -558,6 +558,41 @@ def TestIntelRCs(String label, String release_version, String oe_package = "open
     }
 }
 
+/* Builds and runs ctest for OE on Ubuntu
+ *
+ * @param compiler                   [string]  the compiler to use
+ * @param build_type                 [string]  cmake build type to use. 
+ *                                             Choice of: Debug, Release, or RelWithDebInfo
+ * @param lvi_mitigation             [string]  build enclave libraries with LVI mitigation. 
+ *                                             Choice of: None, ControlFlow-GNU, ControlFlow-Clang, or ControlFlow
+ * @param lvi_mitigation_skip_tests  [boolean] skip LVI mitigation tests?
+ */
+def ACCUbuntu2204Test(String compiler, String build_type, String lvi_mitigation, boolean lvi_mitigation_skip_tests = false) {
+    stage("Ubuntu 22.04 ${compiler} ${build_type} ${lvi_mitigation}") {
+        node(globalvars.AGENTS_LABELS["acc-ubuntu-20.04"]) {
+            timeout(globalvars.GLOBAL_TIMEOUT_MINUTES) {
+                def cmakeArgs = helpers.CmakeArgs(
+                    builder: 'Ninja',
+                    build_type: build_type,
+                    code_coverage: false,
+                    debug_malloc: false,
+                    lvi_mitigation: lvi_mitigation,
+                    lvi_mitigation_skip_tests: lvi_mitigation_skip_tests,
+                    use_snmalloc: false,
+                    use_eeid: false)
+                def devices = helpers.getDockerSGXDevices("ubuntu", helpers.getUbuntuReleaseVer())
+                def runArgs = "--cap-add=SYS_PTRACE ${devices} --volume /var/run/aesmd/aesm.socket:/var/run/aesmd/aesm.socket"
+                def task = """
+                           ${helpers.ninjaBuildCommand(cmakeArgs)}
+                           ctest --output-on-failure --timeout ${globalvars.CTEST_TIMEOUT_SECONDS} --exclude-regex '^samples|tests/(secure_verify_tdx_openssl|secure_verify_tdx_mbedtls|host_verify)\$'
+                           """
+                common.ContainerRun("oejenkinscidockerregistry.azurecr.io/oetools-22.04:${params.DOCKER_TAG}", compiler, task, runArgs)
+            }
+        }
+    }
+}
+
+
 // Azure Windows
 
 def windowsPrereqsVerify(String label) {

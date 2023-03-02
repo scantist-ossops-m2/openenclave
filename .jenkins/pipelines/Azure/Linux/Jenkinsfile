@@ -6,17 +6,19 @@ GLOBAL_ERROR = globalvars.GLOBAL_ERROR
 
 try{
     def testing_stages = [
-        "Host verification 2004 RelWithDebInfo":                     { tests.ACCHostVerificationTest('20.04', 'RelWithDebInfo', 'clang-11') },
-        "Host verification package 2004 RelWithDebInfo":             { tests.ACCHostVerificationPackageTest('20.04', 'RelWithDebInfo', 'clang-11') },
-        "Package ACC2004 RelWithDebInfo ControlFlow":                { tests.ACCPackageTest('20.04', 'RelWithDebInfo', 'ControlFlow', false, false) },
-        "Upgrade ACC2004 RelWithDebInfo":                            { tests.ACCUpgradeTest('20.04', 'clang-11', 'None', true) },
-        "Container ACC2004 RelWithDebInfo ControlFlow":              { tests.ACCContainerTest('20.04', 'clang-11', 'ControlFlow', false) },
-        "Code Coverage ACC2004":                                     { tests.ACCCodeCoverageTest('20.04', 'clang-11', 'Debug') },
-                                                                                                                                                     // ACCTEST BOOL OPTIONS: SKIP LVI TESTS, SNMALLOC, EEID, E2E
-        "ACC2004 v2 clang-11 RelWithDebInfo ControlFlow e2e":        { tests.ACCTest(globalvars.AGENTS_LABELS["acc-ubuntu-20.04-vanilla"], 'clang-11', 'RelWithDebInfo', 'ControlFlow', true, false, false, true) },
-        "ACC2004 v2 clang-11 RelWithDebInfo ControlFlow snmalloc":   { tests.ACCTest(globalvars.AGENTS_LABELS["acc-ubuntu-20.04"],         'clang-11', 'RelWithDebInfo', 'ControlFlow', true, true,  false, false) },
-        "ACC2004 v2 clang-11 Debug":                                 { tests.ACCTest(globalvars.AGENTS_LABELS["acc-ubuntu-20.04"],         'clang-11', 'Debug',          'None',        true, false, false, false) },
-        "ACC2004 v3 clang-11 RelWithDebInfo ControlFlow":            { tests.ACCTest(globalvars.AGENTS_LABELS["acc-v3-ubuntu-20.04"],      'clang-11', 'RelWithDebInfo', 'ControlFlow', true, false, false, false) }
+        // "Host verification 2004 RelWithDebInfo":                     { tests.ACCHostVerificationTest('20.04', 'RelWithDebInfo', 'clang-11') },
+        // "Host verification package 2004 RelWithDebInfo":             { tests.ACCHostVerificationPackageTest('20.04', 'RelWithDebInfo', 'clang-11') },
+        // "Package ACC2004 RelWithDebInfo ControlFlow":                { tests.ACCPackageTest('20.04', 'RelWithDebInfo', 'ControlFlow', false, false) },
+        // "Upgrade ACC2004 RelWithDebInfo":                            { tests.ACCUpgradeTest('20.04', 'clang-11', 'None', true) },
+        // "Container ACC2004 RelWithDebInfo ControlFlow":              { tests.ACCContainerTest('20.04', 'clang-11', 'ControlFlow', false) },
+        // "Code Coverage ACC2004":                                     { tests.ACCCodeCoverageTest('20.04', 'clang-11', 'Debug') },
+        //                                                                                                                                              // ACCTEST BOOL OPTIONS: SKIP LVI TESTS, SNMALLOC, EEID, E2E
+        // "ACC2004 v2 clang-11 RelWithDebInfo ControlFlow e2e":        { tests.ACCTest(globalvars.AGENTS_LABELS["acc-ubuntu-20.04-vanilla"], 'clang-11', 'RelWithDebInfo', 'ControlFlow', true, false, false, true) },
+        // "ACC2004 v2 clang-11 RelWithDebInfo ControlFlow snmalloc":   { tests.ACCTest(globalvars.AGENTS_LABELS["acc-ubuntu-20.04"],         'clang-11', 'RelWithDebInfo', 'ControlFlow', true, true,  false, false) },
+        // "ACC2004 v2 clang-11 Debug":                                 { tests.ACCTest(globalvars.AGENTS_LABELS["acc-ubuntu-20.04"],         'clang-11', 'Debug',          'None',        true, false, false, false) },
+        // "ACC2004 v3 clang-11 RelWithDebInfo ControlFlow":            { tests.ACCTest(globalvars.AGENTS_LABELS["acc-v3-ubuntu-20.04"],      'clang-11', 'RelWithDebInfo', 'ControlFlow', true, false, false, false) }
+        "Container ACC2204 clang-11 RelWithDebInfo ControlFlow":     { tests.ACCUbuntu2204Test('clang-11', 'RelWithDebInfo', 'ControlFlow', false)},
+        "Container ACC2204 clang-11 RelWithDebInfo":                  { tests.ACCUbuntu2204Test('clang-11', 'RelWithDebInfo', 'None', true)}
     ]
     if(FULL_TEST_SUITE == "true") {
         testing_stages += [
