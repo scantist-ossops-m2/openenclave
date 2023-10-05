@@ -385,8 +385,9 @@ def ninjaBuildCommand(String cmake_arguments = "", String build_directory = "${W
                     script: """
                         call vcvars64.bat x64
                         @echo on
-                        cmake ${build_directory} ${cmake_arguments}
-                        ninja -v
+                        setlocal EnableDelayedExpansion
+                        cmake.exe ${build_directory}\\testfail ${cmake_arguments} || !ERRORLEVEL!
+                        ninja.exe -v
                     """
                 )
             }
