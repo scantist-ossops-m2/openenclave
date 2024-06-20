@@ -311,7 +311,7 @@ def ACCHostVerificationTest(String version, String build_type, String compiler, 
                 def runArgs = "--user root:root --cap-add=SYS_PTRACE"
                 def task = """
                            ${helpers.ninjaBuildCommand(cmakeArgs)}
-                           ctest -R host_verify --output-on-failure --timeout ${globalvars.CTEST_TIMEOUT_SECONDS} || ctest --rerun-failed --output-on-failure --timeout ${globalvars.CTEST_TIMEOUT_SECONDS}
+                           OE_LOG_LEVEL=VERBOSE ctest -R host_verify -V --output-on-failure --timeout ${globalvars.CTEST_TIMEOUT_SECONDS} || OE_LOG_LEVEL=VERBOSE ctest -V --rerun-failed --output-on-failure --timeout ${globalvars.CTEST_TIMEOUT_SECONDS}
                            """
                 // Note: Include the commands to build and run the quote verification test above
                 common.ContainerRun("oetools-${version}:${params.DOCKER_TAG}", compiler, task, runArgs)
@@ -336,7 +336,7 @@ def ACCHostVerificationTest(String version, String build_type, String compiler, 
                         bat(
                             script: """
                                 call vcvars64.bat x64
-                                ctest.exe -V -C ${build_type} -R host_verify --output-on-failure --timeout ${globalvars.CTEST_TIMEOUT_SECONDS} || exit !ERRORLEVEL!
+                                set OE_LOG_LEVEL=VERBOSE && ctest.exe -V -C ${build_type} -R host_verify --output-on-failure --timeout ${globalvars.CTEST_TIMEOUT_SECONDS} || exit !ERRORLEVEL!
                             """
                         )
                     }
