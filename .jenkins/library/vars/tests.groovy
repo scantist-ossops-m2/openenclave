@@ -741,7 +741,7 @@ def windowsCrossCompile(String label, String compiler, String build_type, String
                                             script: """
                                                 call vcvars64.bat x64
                                                 setlocal EnableDelayedExpansion
-                                                ctest.exe -V -C ${build_type} --timeout ${globalvars.CTEST_TIMEOUT_SECONDS * 3}
+                                                set OE_LOG_LEVEL=VERBOSE && ctest.exe --verbose --output-on-failure -C ${build_type} --timeout ${globalvars.CTEST_TIMEOUT_SECONDS * 3}
                                                 if !ERRORLEVEL! neq 0 (
                                                     echo Retrying only if more than 10 tests failed from counting lines in Testing/Temporary/LastTestsFailed.log
                                                     if exist Testing\\Temporary\\LastTestsFailed.log (
@@ -750,7 +750,7 @@ def windowsCrossCompile(String label, String compiler, String build_type, String
                                                         )
                                                         if !count! LSS 10 (
                                                             echo Retrying due to less than 10 tests failing
-                                                            ctest --rerun-failed --output-on-failure --verbose --build-config ${build_type} --repeat after-timeout:3 --timeout ${globalvars.CTEST_TIMEOUT_SECONDS}
+                                                            set OE_LOG_LEVEL=VERBOSE && ctest --rerun-failed --output-on-failure --verbose --build-config ${build_type} --repeat after-timeout:3 --timeout ${globalvars.CTEST_TIMEOUT_SECONDS}
                                                         )
                                                     )
 
