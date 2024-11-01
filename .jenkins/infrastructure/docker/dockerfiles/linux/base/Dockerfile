@@ -3,8 +3,7 @@
 #
 # Please use the associated build.sh to build this Dockerfile
 ARG UBUNTU_CODENAME
-ARG UBUNTU_SOURCE_REPO=""
-FROM ${UBUNTU_SOURCE_REPO}ubuntu:${UBUNTU_CODENAME}
+FROM ubuntu:${UBUNTU_CODENAME}
 ARG UBUNTU_VERSION
 ARG UBUNTU_CODENAME
 ENV DEBIAN_FRONTEND noninteractive

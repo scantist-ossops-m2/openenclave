@@ -36,9 +36,8 @@
 # Note that while building Ubuntu 22.04 is possible, it is not currently supported by Open Enclave SDK.
 
 ARG ubuntu_version=20.04
-ARG ubuntu_source_repo=""
 
-FROM ${ubuntu_source_repo}ubuntu:${ubuntu_version}
+FROM ubuntu:${ubuntu_version}
 
 ARG UNAME=jenkins
 ARG GNAME=jenkins
